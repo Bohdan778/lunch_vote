@@ -17,17 +17,17 @@
 
 1. Створіть файл `.env` з мінімумом:
 
-SECRET_KEY=your_secret_here
-DEBUG=1
+   SECRET_KEY=your_secret_here
+   DEBUG=1
 
 
 2. Запустіть контейнер:
 
-bash docker-compose up --build
+   bash docker-compose up --build
 
 3. Сайт буде доступний на:
 
-http://localhost:8000/
+   http://localhost:8000/
 
 
 5. Сайт буде доступний на:
@@ -54,42 +54,32 @@ GET	/api/results/today/?restaurant={id}	Отримати результати з
 
 docker-compose exec web pytest -q
 
-
 Лінтер
 
 Використав flake8 для перевірки коду.
+
 Запуск:
 
 docker-compose exec web flake8
 
-
 Підтримка старих і нових клієнтів
 
-Нові клієнти працюють через Authorization: Bearer <jwt>
-
-Старі клієнти через X-Employee-Token (legacy token)
-
-Для цього зроблена кастомна MixedAuthentication, яка перевіряє JWT, а потім legacy token.
+- Нові клієнти працюють через Authorization: Bearer <jwt>
+- Старі клієнти через X-Employee-Token (legacy token)
+- Для цього зроблена кастомна MixedAuthentication, яка перевіряє JWT, а потім legacy token.
 
 Що я робив для якості коду
 
-Логіку розділив на модулі: models, serializers, views, services
-
-Використовував DRF generics / viewsets, щоб не робити великі в’юшки
-
-Писав тести для основних сценаріїв і edge cases
-
-Старався писати зрозумілі назви змінних і type hints
-
-Перевіряв код через flake8
+- Логіку розділив на модулі: models, serializers, views, services
+- Використовував DRF generics / viewsets, щоб не робити великі в’юшки
+- Писав тести для основних сценаріїв і edge cases
+- Старався писати зрозумілі назви змінних і type hints
+- Перевіряв код через flake8
 
 Можливі кроки далі
 
-Згенерувати повні файли проекту (models.py, views.py, serializers.py, settings.py, manage.py)
-
-Додати тести на граничні випадки
-
-Налаштувати Docker Compose і .env
-
-Додати flake8 та pre-commit для перевірки і форматування коду
+1. Згенерувати повні файли проекту (models.py, views.py, serializers.py, settings.py, manage.py)
+2. Додати тести на граничні випадки
+3. Налаштувати Docker Compose і .env
+4. Додати flake8 та pre-commit для перевірки і форматування коду
 
