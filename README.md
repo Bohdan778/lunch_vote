@@ -1,57 +1,52 @@
-Lunch Vote — тестове завдання
-Що це
+# Lunch Vote — тестове завдання
 
-Це простий сервіс, де співробітники можуть голосувати за меню ресторану на сьогодні.
+## Опис проекту
+Це простий сервіс, де співробітники можуть голосувати за меню ресторану на сьогодні.  
+Мета була — показати базову роботу з Django, DRF, JWT та Docker, а також написати тести.
 
-Технології, які я використав:
+**Технології:**
+- Django + Django REST Framework (DRF)
+- JWT (через `djangorestframework-simplejwt`)
+- PostgreSQL
+- Docker + docker-compose
+- PyTest для тестів
 
-Django + DRF
+---
 
-JWT через djangorestframework-simplejwt
+## Запуск проекту локально (через Docker)
 
-PostgreSQL
-
-Docker + docker-compose
-
-PyTest для тестів
-
-Як запустити локально (через Docker)
-
-Створіть файл .env з мінімумом:
+1. Створіть файл `.env` з мінімумом:
 
 SECRET_KEY=your_secret_here
 DEBUG=1
 
 
-Запустіть Docker:
+2. Запустіть контейнер:
 
-docker-compose up --build
+bash docker-compose up --build
+
+3. Сайт буде доступний на:
+
+http://localhost:8000/
 
 
-Сайт буде доступний на http://localhost:8000/
+5. Сайт буде доступний на:
 
 Міграції
 
-В docker-compose у мене налаштовано, щоб міграції йшли автоматично.
-Якщо треба вручну:
-
+У docker-compose налаштовано, щоб міграції йшли автоматично.
+Якщо потрібно запустити вручну:
 docker-compose exec web python manage.py migrate
 
 API
-
-POST /api/auth/token/ — отримати JWT токен (логін/пароль)
-
-POST /api/employees/ — створити співробітника (повертає legacy token)
-
-POST /api/restaurants/ — створити ресторан (треба бути авторизованим)
-
-POST /api/restaurants/{id}/menus/ — завантажити меню на день
-
-GET /api/menus/today/?restaurant={id} — подивитися меню на сьогодні
-
-POST /api/menus/{menu_id}/vote/ — проголосувати (JWT або X-Employee-Token)
-
-GET /api/results/today/?restaurant={id} — результати за сьогодні
+Метод	URL	Опис
+POST	/api/auth/token/	Отримати JWT токен (username, password)
+POST	/api/employees/	Створити співробітника (повертає legacy token)
+POST	/api/restaurants/	Створити ресторан (потрібна автентифікація)
+POST	/api/restaurants/{id}/menus/	Завантажити меню на день
+GET	/api/menus/today/?restaurant={id}	Отримати меню на сьогодні
+POST	/api/menus/{menu_id}/vote/	Проголосувати (JWT або X-Employee-Token)
+GET	/api/results/today/?restaurant={id}	Отримати результати за сьогодні
 
 Тести
 
@@ -59,12 +54,14 @@ GET /api/results/today/?restaurant={id} — результати за сього
 
 docker-compose exec web pytest -q
 
+
 Лінтер
 
 Використав flake8 для перевірки коду.
-Запускати так:
+Запуск:
 
 docker-compose exec web flake8
+
 
 Підтримка старих і нових клієнтів
 
@@ -72,26 +69,27 @@ docker-compose exec web flake8
 
 Старі клієнти через X-Employee-Token (legacy token)
 
-Все працює в одній в’юшці через кастомну MixedAuthentication
+Для цього зроблена кастомна MixedAuthentication, яка перевіряє JWT, а потім legacy token.
 
-Що я намагався робити по SOLID і чистому коду
+Що я робив для якості коду
 
-Логіку розділяв на models, serializers, views, services (щоб не робити дуже великі в’юшки)
+Логіку розділив на модулі: models, serializers, views, services
 
-Використовував DRF generics / viewsets
+Використовував DRF generics / viewsets, щоб не робити великі в’юшки
 
-Писав тести на головні сценарії: голосування, завантаження меню, edge cases
+Писав тести для основних сценаріїв і edge cases
 
-Старався писати зрозумілі назви змінних, type hints там, де логіка трохи складна
+Старався писати зрозумілі назви змінних і type hints
 
 Перевіряв код через flake8
 
-Що можу зробити далі
+Можливі кроки далі
 
-Можу згенерувати повні файли проекту (models.py, views.py, serializers.py, settings.py з env, manage.py і т.д.)
+Згенерувати повні файли проекту (models.py, views.py, serializers.py, settings.py, manage.py)
 
-Можу додати тести на граничні випадки
+Додати тести на граничні випадки
 
-Можу допомогти налаштувати Docker Compose і .env
+Налаштувати Docker Compose і .env
 
-Можу додати flake8 і pre-commit конфігурації
+Додати flake8 та pre-commit для перевірки і форматування коду
+
